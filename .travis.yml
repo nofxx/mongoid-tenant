@@ -1,0 +1,26 @@
+language: ruby
+
+rvm:
+  - 2.1.1
+  - 2.2.2
+  - ruby-head
+  - jruby-head
+  - rbx-2
+
+env: CI="travis" JRUBY_OPTS="--2.0 --server -Xcompile.invokedynamic=false -J-XX:+TieredCompilation -J-XX:TieredStopAtLevel=1 -J-noverify -J-Xms512m -J-Xmx1024m"
+
+matrix:
+  allow_failures:
+    - rvm: ruby-head
+    - rvm: jruby-head
+    - rvm: rbx-2
+
+gemfile:
+  - Gemfile
+
+services:
+  - mongodb
+
+env: CI="travis"
+
+script: "bundle exec rspec"
