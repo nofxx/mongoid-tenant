@@ -1,4 +1,4 @@
-# A nice model for a blog!
+# A nice model for jornalistic SaaS!
 class Journal
   include Mongoid::Document
   include Mongoid::Tenancy
@@ -6,9 +6,25 @@ class Journal
   field :name
 end
 
+# Reporter -> Journal tenant
+class Reporter
+  include Mongoid::Document
+  include Mongoid::Tenant
+
+  field :name
+end
+
+# Article -> Journal tenant
 class Article
   include Mongoid::Document
   include Mongoid::Tenant
+
   field :title
   field :body
+end
+
+# City normal model
+class City
+  include Mongoid::Document
+  field :name
 end

@@ -2,6 +2,8 @@ source 'http://rubygems.org'
 
 gemspec
 
+gem 'mongoid', '5.0.0.beta'
+
 group :test do
   gem 'guard'
   gem 'guard-rspec'
@@ -9,5 +11,5 @@ group :test do
   gem 'rspec', '>= 3.2.0'
   gem 'coveralls', require: false
   gem 'codeclimate-test-reporter', require: nil
-  gem 'mongoid-rspec', git: 'https://github.com/nofxx/mongoid-rspec'
+  gem 'mongoid-rspec'
 end

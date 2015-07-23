@@ -1,9 +1,15 @@
 module Mongoid
+  #
+  # Tenancy Module
+  #
+  # Provides #tenant_key and #tenancy!
+  #
   module Tenancy
     extend ActiveSupport::Concern
-
+    #
+    # Model instance
     module ClassMethods
-      def tenant_key key, options = {}
+      def tenant_key(key, options = {})
         field key,    type: Symbol
 
         validates key, { uniqueness: true }.merge(options[:validates])

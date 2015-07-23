@@ -80,3 +80,9 @@ def app_domain
   @domain.tenancy!
 end
 ```
+
+
+## Issues
+
+
+http://github.com/nofxx/mongoid-tenant

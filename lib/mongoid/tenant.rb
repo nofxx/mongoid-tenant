@@ -4,6 +4,9 @@ require_relative 'tenancy'
 require 'mongoid/tenant/railtie' if defined?(Rails)
 
 module Mongoid
+  #
+  # The tenant
+  #
   module Tenant
     extend ActiveSupport::Concern
 
