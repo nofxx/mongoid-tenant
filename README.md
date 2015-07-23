@@ -1,9 +1,9 @@
 Mongoid::Tenant
 ===============
 
-[![Gem Version](https://badge.fury.io/rb/mongoid-tenant.png)](http://badge.fury.io/rb/mongoid-tenant)
+[![Gem Version](https://badge.fury.io/rb/mongoid-tenant.svg)](http://badge.fury.io/rb/mongoid-tenant)
 [![Dependency Status](https://gemnasium.com/nofxx/mongoid-tenant.svg)](https://gemnasium.com/nofxx/mongoid-tenant)
-[![Build Status](https://secure.travis-ci.org/nofxx/mongoid-tenant.png)](http://travis-ci.org/nofxx/mongoid-tenant)
+[![Build Status](https://secure.travis-ci.org/nofxx/mongoid-tenant.svg)](http://travis-ci.org/nofxx/mongoid-tenant)
 
 ## Mongoid::Tenant
 
@@ -35,6 +35,8 @@ And that's all. But we need a tenancy:
 class Shop
   include Mongoid::Document
   include Mongoid::Tenancy
+
+  tenant_key :url
 end
 ```
 
@@ -54,7 +56,17 @@ Shop.first.tenancy!
 
 ### Tenancy.tenants
 
-Helper to execute something on each tenant namespace. Eg:
+Helper to execute something on each tenant namespace.
+has_many substitute. Eg:
+
+```
+class Shop
+   ...
+   has_tenant :bikes
+end
+```
+
+Or raw:
 
 ```
 Shop.tenants { |tenant| puts "#{tenant} have #{Bike.count} bike(s)" }

@@ -24,3 +24,5 @@ services:
 env: CI="travis"
 
 script: "bundle exec rspec"
+
+sudo: false

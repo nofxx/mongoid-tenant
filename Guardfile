@@ -9,7 +9,7 @@
 
 # guard :rubocop do
 guard :rubocop, all_on_start: false, keep_failed: false, cli: ['-D'] do
-  watch(%r{.+\.rb$})
+  watch(/.+\.rb$/)
   watch(%r{(?:.+/)?\.rubocop\.yml$}) { |m| File.dirname(m[0]) }
 end
 
