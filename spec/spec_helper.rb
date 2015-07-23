@@ -69,8 +69,8 @@ RSpec.configure do |config|
   end
 
   config.after(:suite) do
-    extra_dbs = fetch_dbs - START_DBS
-    fail "Extra DBs: #{extra_dbs.inspect}" unless extra_dbs.empty?
     puts "\n# With Mongoid v#{Mongoid::VERSION}"
+    extra_dbs = (fetch_dbs - START_DBS) - ['mongoid_tenant_test']
+    fail "Extra DBs: #{extra_dbs.inspect}" unless extra_dbs.empty?
   end
 end
