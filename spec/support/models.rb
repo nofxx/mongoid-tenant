@@ -4,6 +4,9 @@ class Journal
   include Mongoid::Tenancy
 
   field :name
+  tenant_key :url
+
+  has_tenant :articles
 end
 
 # Reporter -> Journal tenant

@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ['Marcos Piccinini']
   s.homepage    = 'http://github.com/nofxx/mongoid-tenant'
-  s.summary     = 'Multi Database/Tenants models for Mongoid documents.'
-  s.description = 'Mongoid Tenant with multiple database per client.'
+  s.summary     = 'Multiple databases Models for Mongoid documents.'
+  s.description = 'Multiple databases Mongoid Models. Good for SaaS Apps.'
   s.license     = 'MIT'
 
   s.rubyforge_project = 'mongoid-tenant'
@@ -17,6 +17,5 @@ Gem::Specification.new do |s|
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
-  s.executables   = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
   s.require_paths = ['lib']
 end

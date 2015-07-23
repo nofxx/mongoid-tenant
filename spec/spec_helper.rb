@@ -16,7 +16,7 @@ require 'mongoid/tenant'
 
 ENV['MONGOID_ENV'] = 'test'
 
-db_config = {
+DB_CONFIG = {
   default: {
     database: 'mongoid_tenant_test',
     hosts: ["localhost: #{ENV['MONGODB_PORT'] || 27_017}"],
@@ -24,12 +24,31 @@ db_config = {
   }
 }
 
+START_DBS = []
+
+def new_conn(db = '')
+  Mongo::Client.new(DB_CONFIG[:default][:hosts], database: db)
+end
+
+def fetch_dbs
+  new_conn.database_names.to_a # each { |n| START_DBS << n }
+end
+
+def drop_shared
+  %w( a_casseta_test a_planeta_test ).each do |db|
+    new_conn(db).database.drop
+  end
+end
+
+START_DBS = fetch_dbs
+
+
 Mongoid.configure do |config|
   config.load_configuration(
     if Mongoid::VERSION >= '5'
-      { clients: db_config }
+      { clients: DB_CONFIG }
     else
-      { sessions: db_config }
+      { sessions: DB_CONFIG }
     end
   )
 end
@@ -42,10 +61,21 @@ RSpec.configure do |config|
   config.include Mongoid::Matchers
 
   config.before(:each) do
-    Mongoid.purge!
+    Thread.current[:tenancy] = nil
+    drop_shared
+    # HACK: Mongoid.purge!
+    [Journal, City].each(&:delete_all)
+  end
+
+  config.after(:each) do
+    drop_shared
   end
 
   config.after(:suite) do
+    dbs = fetch_dbs - START_DBS
+    unless dbs.empty?
+      fail "Extra DBs: #{dbs.inspect}"
+    end
     puts "\n# With Mongoid v#{Mongoid::VERSION}"
   end
 end
