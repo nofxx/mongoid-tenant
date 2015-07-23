@@ -21,19 +21,24 @@ module Mongoid
         define_method(:tenant_key) do
           send(key).to_s
         end
+
+        define_singleton_method(:clear_tenancy!) do
+          Thread.current[:tenancy] = nil
+        end
+
+        define_singleton_method(:with_tenants) do |&block|
+          all.each do |t|
+            t.tenancy!
+            block.call(t)
+          end
+          clear_tenancy!
+        end
       end
 
       def has_tenant(relative)
         define_method(relative) do
           tenancy! && relative.to_s.classify.constantize
         end
-      end
-    end
-
-    def tenants
-      self.class.all.each do |t|
-        t.tenancy!
-        yield t
       end
     end
 

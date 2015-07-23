@@ -18,9 +18,9 @@ describe Mongoid::Tenant do
   end
 
   it 'should not interfer with tenancy' do
-    expect {
-      Journal.create!(url: 'a_planeta', name: 'Planeta Diário')
-    }.to_not raise_error
+    expect do
+      Journal.create!(url: 'a_planeta_test', name: 'Planeta Diário')
+    end.to_not raise_error
     expect(Journal.count).to eq 1
   end
 

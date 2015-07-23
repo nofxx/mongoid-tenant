@@ -24,8 +24,6 @@ DB_CONFIG = {
   }
 }
 
-START_DBS = []
-
 def new_conn(db = '')
   Mongo::Client.new(DB_CONFIG[:default][:hosts], database: db)
 end
@@ -35,13 +33,12 @@ def fetch_dbs
 end
 
 def drop_shared
-  %w( a_casseta_test a_planeta_test ).each do |db|
+  %w( a_casseta_test a_planeta_test b_casseta_test b_planeta_test ).each do |db|
     new_conn(db).database.drop
   end
 end
 
 START_DBS = fetch_dbs
-
 
 Mongoid.configure do |config|
   config.load_configuration(
@@ -64,7 +61,7 @@ RSpec.configure do |config|
     Thread.current[:tenancy] = nil
     drop_shared
     # HACK: Mongoid.purge!
-    [Journal, City].each(&:delete_all)
+    [Journal, Blog, City].each(&:delete_all)
   end
 
   config.after(:each) do
@@ -72,10 +69,8 @@ RSpec.configure do |config|
   end
 
   config.after(:suite) do
-    dbs = fetch_dbs - START_DBS
-    unless dbs.empty?
-      fail "Extra DBs: #{dbs.inspect}"
-    end
+    extra_dbs = fetch_dbs - START_DBS
+    fail "Extra DBs: #{extra_dbs.inspect}" unless extra_dbs.empty?
     puts "\n# With Mongoid v#{Mongoid::VERSION}"
   end
 end

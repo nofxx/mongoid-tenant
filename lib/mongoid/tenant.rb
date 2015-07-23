@@ -1,5 +1,5 @@
 require 'mongoid'
-require_relative 'tenancy'
+require 'mongoid/tenancy'
 
 require 'mongoid/tenant/railtie' if defined?(Rails)
 

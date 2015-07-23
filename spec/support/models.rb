@@ -31,3 +31,12 @@ class City
   include Mongoid::Document
   field :name
 end
+
+class Blog
+  include Mongoid::Document
+  include Mongoid::Tenancy
+  field :name
+  tenant_key :url, validates: { allow_nil: true }, index: { sparse: true }
+
+  has_tenant :articles
+end
