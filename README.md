@@ -57,7 +57,7 @@ Shop.first.tenancy!
 Helper to execute something on each tenant namespace. Eg:
 
 ```
-Shop.tenants { |t| puts "#{t} has #{Bike.count}" }
+Shop.tenants { |tenant| puts "#{tenant} have #{Bike.count} bike(s)" }
 ```
 
 
@@ -68,4 +68,15 @@ You'll need to provide which Tenancy to scope. In our example:
 
 ```
 TENANCY=Shop bundle exec rails db:mongoid:create_indexes
+```
+
+## ApplicationController
+
+Write your logic:
+
+```
+def app_domain
+  @domain ||= Shop.find_by(uri: /^#{request.env["SERVER_NAME"]}/)
+  @domain.tenancy!
+end
 ```

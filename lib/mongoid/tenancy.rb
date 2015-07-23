@@ -2,23 +2,28 @@ module Mongoid
   module Tenancy
     extend ActiveSupport::Concern
 
-    included do
-      field :uri,     type: String
+    module ClassMethods
+      def tenant_key key, options = {}
+        field key,    type: Symbol
 
-      validates :uri, uniqueness: true
+        validates key, { uniqueness: true }.merge(options[:validates])
 
-      index({ uri: 1 }, unique: true)
-
-      def self.tenants
-        all.each do |t|
-          t.tenancy!
-          yield t
-        end
+        index({ key => 1 }, {  unique: true }.merge(options[:index]))
       end
     end
 
+    # included do
+
+    #   def self.tenants
+    #     all.each do |t|
+    #       t.tenancy!
+    #       yield t
+    #     end
+    #   end
+    # end
+
     def tenancy!
-      Thread.current[:mongodb] = _id.to_s
+      Thread.current[:tenancy] = _id.to_s
     end
   end # Tenancy
 end # Mongoid

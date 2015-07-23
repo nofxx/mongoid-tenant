@@ -8,7 +8,7 @@ module Mongoid
     extend ActiveSupport::Concern
 
     included do
-      store_in database: -> { Thread.current[:mongodb] }
+      store_in database: -> { Thread.current[:tenancy] }
     end
   end # Tenant
 end # Mongoid

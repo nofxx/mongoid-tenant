@@ -9,6 +9,7 @@ namespace :db do
         fail("Provide a tenancy model: `TENANCY=Foo #{ARGV.join}`")
     end
 
+    desc "Create Mongoid indexes, tenant aware"
     task :create_indexes => [:environment, :load_models] do
       Rake::Task["db:mongoid:create_indexes"].clear
       Object.const_get(get_tenancy).all.each do |t|
@@ -18,6 +19,7 @@ namespace :db do
       end
     end
 
+    desc "Removes undefined Mongoid indexes, tenant aware"
     task :remove_undefined_indexes => [:environment, :load_models] do
       Object.const_get(get_tenancy).all.each do |t|
         puts "Tenant #{t}"
