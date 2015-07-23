@@ -15,19 +15,7 @@ Simple multi tenant for mongoid models!
 This library is a simple way to split your client data between databases.
 To mongo it's pretty trivial to use multiple databases. Mongoid helps too.
 
-## Tenant
-
-Models to be splitted, supposing you have a Bike SaaS where each Shop stores
-their bikes:
-
-```
-class Bike
-  include Mongoid::Document
-  include Mongoid::Tenant
-end
-```
-
-And that's all. But we need a tenancy:
+Supposing you have a Bike SaaS where each Shop stores:
 
 ## Tenancy
 
@@ -39,6 +27,18 @@ class Shop
   tenant_key :url
 end
 ```
+
+## Tenant
+
+
+```
+class Bike
+  include Mongoid::Document
+  include Mongoid::Tenant
+end
+```
+
+And that's all.
 
 
 ## Helpers
@@ -95,6 +95,5 @@ end
 
 
 ## Issues
-
 
 http://github.com/nofxx/mongoid-tenant
