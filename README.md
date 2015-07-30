@@ -5,7 +5,7 @@ Mongoid::Tenant
 [![Dependency Status](https://gemnasium.com/nofxx/mongoid-tenant.svg)](https://gemnasium.com/nofxx/mongoid-tenant)
 [![Build Status](https://secure.travis-ci.org/nofxx/mongoid-tenant.svg)](http://travis-ci.org/nofxx/mongoid-tenant)
 [![Code Climate](https://codeclimate.com/github/nofxx/mongoid-tenant/badges/gpa.svg)](https://codeclimate.com/github/nofxx/mongoid-tenant)
-[![Coverage Status](https://coveralls.io/repos/nofxx/mongoid-tenant/badge.svg?branch=master)](https://coveralls.io/r/nofxx/mongoid-tenant?branch=master)
+[![Coverage Status](https://coveralls.io/repos/nofxx/mongoid-tenant/badge.svg?branch=master&service=github)](https://coveralls.io/github/nofxx/mongoid-tenant?branch=master)
 
 ## Mongoid::Tenant
 
