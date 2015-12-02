@@ -95,6 +95,17 @@ def app_domain
 end
 ```
 
+## Populate & Spec
+
+`Mongoid.purge!` won't work. It doesn't know all dbs.
+A good alternative:
+
+```
+Mongoid.default_client.with(database: db).collections.each(&:drop)
+```
+
+If you don't know every db try `Mongoid.default_client.list_databases`.
+
 
 ## Issues
 
