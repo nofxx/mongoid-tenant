@@ -10,13 +10,14 @@ module Mongoid
     # Model instance
     module ClassMethods
       def tenant_key(key, options = {})
-        field key,    type: Symbol
+        field key, type: Symbol
+
         options[:validates] ||= { presence: true }
         options[:index] ||= {}
 
         validates key, { uniqueness: true }.merge(options[:validates])
 
-        index({ key => 1 }, {  unique: true }.merge(options[:index]))
+        index({ key => 1 }, { unique: true }.merge(options[:index]))
 
         define_method(:tenant_key) do
           send(key).to_s

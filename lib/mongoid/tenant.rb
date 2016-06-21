@@ -11,7 +11,13 @@ module Mongoid
     extend ActiveSupport::Concern
 
     included do
-      store_in database: -> { Thread.current[:tenancy] }
+      store_in database: lambda do
+        Thread.current[:tenancy] || raise('No tenancy set!')
+      end
+
+      def tenancy
+        Thread.current[:tenancy]
+      end
     end
   end # Tenant
 end # Mongoid
