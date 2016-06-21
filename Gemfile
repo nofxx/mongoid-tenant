@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 
 gemspec
 
-gem 'mongoid', '5.0.0.beta'
+gem 'mongoid'
 
 group :test do
   gem 'guard'

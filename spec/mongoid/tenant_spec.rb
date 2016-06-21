@@ -30,6 +30,6 @@ describe Mongoid::Tenant do
 
   it 'should interfer with tenant w/o tenancy' do
     expect { Article.create!(title: 'A Very Nice Coffeeshop') }
-      .to raise_error(NoMethodError)
+      .to raise_error(RuntimeError)
   end
 end
