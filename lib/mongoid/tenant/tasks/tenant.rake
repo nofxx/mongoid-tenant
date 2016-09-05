@@ -20,7 +20,7 @@ namespace :db do
       # Run once, for tables outside tenancy
       ::Mongoid::Tasks::Database.create_indexes(non_tenancy_models)
       if tenancy_env
-        Object.const_get(tenancy_env).all.each do |t|
+        Object.const_get(tenancy_env).active_tenants.each do |t|
           puts "Tenant #{t}"
           t.tenancy!
           ::Mongoid::Tasks::Database.create_indexes(tenancy_models)
@@ -36,7 +36,7 @@ namespace :db do
       # Run once, for tables outside tenancy
       ::Mongoid::Tasks::Database.remove_undefined_indexes(non_tenancy_models)
       if tenancy_env
-        Object.const_get(tenancy_env).all.each do |t|
+        Object.const_get(tenancy_env).active_tenants.each do |t|
           puts "Tenant #{t}"
           t.tenancy!
           ::Mongoid::Tasks::Database.remove_undefined_indexes(tenancy_models)

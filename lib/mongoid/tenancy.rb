@@ -16,8 +16,8 @@ module Mongoid
         options[:index] ||= {}
 
         validates key, { uniqueness: true }.merge(options[:validates])
-
         index({ key => 1 }, { unique: true }.merge(options[:index]))
+        scope :active_tenants, -> { where(key.ne => nil) }
 
         define_method(:tenant_key) do
           send(key).to_s
