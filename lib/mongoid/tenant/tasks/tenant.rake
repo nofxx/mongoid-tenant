@@ -27,7 +27,23 @@ namespace :db do
         end
       else
         puts 'Not running tenants: Provide a tenancy model:'
-        puts "`TENANCY=Firm #{ARGV.join(' ')}`"
+        puts "`TENANCY=Model #{ARGV.join(' ')}`"
+      end
+    end
+
+    desc 'Remove Mongoid indexes, tenant aware'
+    task remove_indexes: [:environment, :load_models] do
+      # Run once, for tables outside tenancy
+      ::Mongoid::Tasks::Database.remove_indexes(non_tenancy_models)
+      if tenancy_env
+        Object.const_get(tenancy_env).active_tenants.each do |t|
+          puts "Tenant #{t}"
+          t.tenancy!
+          ::Mongoid::Tasks::Database.remove_indexes(tenancy_models)
+        end
+      else
+        puts 'Not running tenants: Provide a tenancy model:'
+        puts "`TENANCY=Model #{ARGV.join(' ')}`"
       end
     end
 
