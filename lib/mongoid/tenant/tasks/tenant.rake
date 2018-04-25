@@ -1,4 +1,5 @@
 Rake::Task['db:mongoid:create_indexes'].clear
+Rake::Task['db:mongoid:remove_indexes'].clear
 Rake::Task['db:mongoid:remove_undefined_indexes'].clear
 
 namespace :db do
@@ -15,8 +16,13 @@ namespace :db do
       ::Mongoid.models.reject { |k| k.include?(::Mongoid::Tenant) }
     end
 
+    def puts_warning
+      puts 'Not running tenants... Provide a tenancy model:'
+      puts "`TENANCY=Model #{ARGV.join(' ')}`"
+    end
+
     desc 'Create Mongoid indexes, tenant aware'
-    task create_indexes: [:environment, :load_models] do
+    task create_indexes: %i[environment load_models] do
       # Run once, for tables outside tenancy
       ::Mongoid::Tasks::Database.create_indexes(non_tenancy_models)
       if tenancy_env
@@ -26,13 +32,12 @@ namespace :db do
           ::Mongoid::Tasks::Database.create_indexes(tenancy_models)
         end
       else
-        puts 'Not running tenants: Provide a tenancy model:'
-        puts "`TENANCY=Model #{ARGV.join(' ')}`"
+        puts_warning
       end
     end
 
     desc 'Remove Mongoid indexes, tenant aware'
-    task remove_indexes: [:environment, :load_models] do
+    task remove_indexes: %i[environment load_models] do
       # Run once, for tables outside tenancy
       ::Mongoid::Tasks::Database.remove_indexes(non_tenancy_models)
       if tenancy_env
@@ -42,13 +47,12 @@ namespace :db do
           ::Mongoid::Tasks::Database.remove_indexes(tenancy_models)
         end
       else
-        puts 'Not running tenants: Provide a tenancy model:'
-        puts "`TENANCY=Model #{ARGV.join(' ')}`"
+        puts_warning
       end
     end
 
     desc 'Removes undefined Mongoid indexes, tenant aware'
-    task remove_undefined_indexes: [:environment, :load_models] do
+    task remove_undefined_indexes: %i[environment load_models] do
       # Run once, for tables outside tenancy
       ::Mongoid::Tasks::Database.remove_undefined_indexes(non_tenancy_models)
       if tenancy_env
